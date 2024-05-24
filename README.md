@@ -1,29 +1,42 @@
-# Open-AI-Agent-on-website-
-Open AI Agent on website 
-# Chatbot Interativo com Flask e OpenAI
+# Chatbot PoC com Flask e OpenAI
 
-Este projeto é um chatbot interativo desenvolvido com Flask que utiliza a API da OpenAI para gerar respostas. O chatbot é configurado para atuar como um consultor digital especializado em identificar as dores dos clientes e fornecer respostas detalhadas e perspicazes.
+Este projeto é uma prova de conceito (PoC) de um chatbot que utiliza Flask para o backend e a API da OpenAI para gerar respostas baseadas nas entradas do usuário. O objetivo é criar uma interface web simples onde os usuários podem interagir com um chatbot que responde às suas perguntas.
 
-## Funcionalidades
+## Estrutura do Projeto
 
-- **Interface Web Interativa**: Uma página web simples com um chatbox onde os usuários podem enviar mensagens e receber respostas do chatbot.
-- **Integração com OpenAI**: Utiliza o modelo `gpt-3.5-turbo` da OpenAI para processar as mensagens dos usuários e gerar respostas.
-- **Engenharia de Prompt**: O chatbot é configurado com prompts específicos para orientar suas respostas, se apresentando como um consultor digital da empresa 'Ser + Digital' e respondendo em português.
-- **Armazenamento de Conversas**: As mensagens trocadas entre o usuário e o chatbot são armazenadas em um banco de dados SQLite para posterior análise.
+my_project/
+- app.py
+- requirements.txt
+- templates
+    - index.html
+- static
+    - styles.css
 
-## Instalação
 
-1. Clone o repositório:
-    ```bash
-    git clone https://github.com/seu-usuario/seu-repositorio.git
-    cd seu-repositorio
-    ```
+
+
+## Funcionalidades Principais
+
+- **Página Web Interativa**: Interface de usuário simples e intuitiva.
+- **Chatbot**: Integrado com a API da OpenAI para gerar respostas.
+- **Prompt Engineering**: Possibilidade de ajustar o comportamento do chatbot através de prompts.
+
+## Configuração do Ambiente
+
+### Pré-requisitos
+
+- Python 3.7 ou superior
+- Virtualenv
+
+### Instalação
+
+1. Suba os arquivos seguindo a estrutura acima. 
+  
 
 2. Crie e ative um ambiente virtual:
     ```bash
     python -m venv venv
-    venv\Scripts\activate  # No Windows
-    # source venv/bin/activate  # No macOS/Linux
+    source venv/bin/activate  # No Windows use `venv\Scripts\activate`
     ```
 
 3. Instale as dependências:
@@ -31,33 +44,47 @@ Este projeto é um chatbot interativo desenvolvido com Flask que utiliza a API d
     pip install -r requirements.txt
     ```
 
-## Configuração
+### Executando o Projeto
 
-1. Obtenha uma chave de API da OpenAI e substitua `'YOUR_OPENAI_API_KEY'` no arquivo `app.py` pela sua chave de API.
-
-2. Inicie o banco de dados:
+1. Inicie o servidor Flask:
     ```bash
     python app.py
     ```
 
-## Execução
-
-1. Execute a aplicação Flask:
-    ```bash
-    python app.py
+2. Acesse o aplicativo em:
+    ```text
+    http://127.0.0.1:5000
     ```
 
-2. Abra o navegador e acesse `http://127.0.0.1:5000` para interagir com o chatbot.
+## Estrutura de Código
 
-## Estrutura do Projeto
+### `app.py`
 
-my_project/
-│
-├── templates/
-│ └── index.html
-├── static/
-│ └── styles.css
-├── app.py
-├── chatbot.db
-├── requirements.txt
-└── README.md
+Este é o arquivo principal que configura o servidor Flask e a integração com a API da OpenAI.
+
+### `templates/index.html`
+
+Arquivo HTML que define a interface do usuário.
+
+### `static/styles.css`
+
+Arquivo CSS para estilizar a página web.
+
+### `requirements.txt`
+
+Arquivo que lista todas as dependências do projeto.
+
+## Customização do Chatbot (Prompt Engineering)
+
+Você pode ajustar o comportamento do chatbot modificando o prompt do sistema no arquivo `app.py`:
+
+```python
+response = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": message}
+    ],
+    max_tokens=150,
+    temperature=0.7,
+)
