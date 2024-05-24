@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chatbot PoC</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div id="chatbox">
+        <div id="messages"></div>
+        <input type="text" id="userInput" placeholder="Digite sua mensagem...">
+        <button onclick="sendMessage()">Enviar</button>
+    </div>
+    <script>
+        async function sendMessage() {
+            const userInput = document.getElementById('userInput').value;
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: userInput })
+            });
+            const data = await response.json();
+            document.getElementById('messages').innerHTML += `<p><b>Você:</b> ${userInput}</p><p><b>Bot:</b> ${data.reply}</p>`;
+            document.getElementById('userInput').value = '';
+        }
+    </script>
+</body>
+</html>
