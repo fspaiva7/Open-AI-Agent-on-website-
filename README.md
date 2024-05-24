@@ -11,15 +11,15 @@ my_project/
     - index.html
 - static
     - styles.css
-
-
+- chatbot.db # Arquivo do banco de dados SQLite
 
 
 ## Funcionalidades Principais
 
 - **Página Web Interativa**: Interface de usuário simples e intuitiva.
 - **Chatbot**: Integrado com a API da OpenAI para gerar respostas.
-- **Prompt Engineering**: Possibilidade de ajustar o comportamento do chatbot através de prompts.
+- **Armazenamento de Conversas**: Conversas são armazenadas em um banco de dados SQLite.
+- **Análise de Dores**: Análise das dores dos clientes com base nas mensagens armazenadas.
 
 ## Configuração do Ambiente
 
@@ -32,7 +32,6 @@ my_project/
 
 1. Suba os arquivos seguindo a estrutura acima. 
   
-
 2. Crie e ative um ambiente virtual:
     ```bash
     python -m venv venv
@@ -44,7 +43,12 @@ my_project/
     pip install -r requirements.txt
     ```
 
-### Executando o Projeto
+4. Crie um arquivo `.env` e adicione sua chave de API da OpenAI:
+    ```text
+    OPENAI_API_KEY=your_openai_api_key
+    ```
+
+### Executando o Projeto, Interaja com o chatbot e verifique as novas rotas:
 
 1. Inicie o servidor Flask:
     ```bash
@@ -56,11 +60,16 @@ my_project/
     http://127.0.0.1:5000
     ```
 
+3. Para visualizar a análise de dores: 
+  ```text
+  http://127.0.0.1:5000/pain_points
+  ```
+
 ## Estrutura de Código
 
 ### `app.py`
 
-Este é o arquivo principal que configura o servidor Flask e a integração com a API da OpenAI.
+Este é o arquivo principal que configura o servidor Flask, a integração com a API da OpenAI e o armazenamento de conversas no banco de dados SQLite.
 
 ### `templates/index.html`
 
@@ -79,12 +88,26 @@ Arquivo que lista todas as dependências do projeto.
 Você pode ajustar o comportamento do chatbot modificando o prompt do sistema no arquivo `app.py`:
 
 ```python
-response = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": message}
-    ],
+response = openai.Completion.create(
+    engine="davinci-codex",  # Ajuste o motor se necessário
+    prompt=message,
     max_tokens=150,
     temperature=0.7,
 )
+```
+
+## Funcionalidades Adicionais
+
+# Armazenamento de Conversas
+As mensagens dos usuários e as respostas do chatbot são armazenadas em um banco de dados SQLite.
+
+# Análise de Dores
+Um método básico de análise que categoriza as dores dos clientes com base em palavras-chave nas mensagens.
+
+# Rotas Adicionais
+/conversations: Recupera e exibe as conversas armazenadas no banco de dados.
+/pain_points: Visualiza a análise das dores dos clientes.
+Contribuições
+Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou enviar um pull request.
+
+
